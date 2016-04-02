@@ -38,13 +38,13 @@ class DHT_nonblocking
 {
   public:
     DHT_nonblocking( uint8_t pin, uint8_t type );
-    bool measure( float *temperature, float *humidity );
+    bool measure( int *temperature, int *humidity );
 
   private:
-    boolean read_data( );
-    boolean read_nonblocking( );
-    float read_temperature( ) const;
-    float read_humidity( ) const;
+    bool read_data( );
+    bool read_nonblocking( );
+    int read_temperature( ) const;
+    int read_humidity( ) const;
 
     uint8_t dht_state;
     unsigned long dht_timestamp;

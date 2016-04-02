@@ -56,7 +56,7 @@ DHT_nonblocking::DHT_nonblocking( uint8_t pin, uint8_t type )
  * Instruct the DHT to begin sampling.  Keep polling until it returns true.
  * The tempearture is in degrees Celsius, and the humidity is in %.
  */
-bool DHT_nonblocking::measure( float *temperature, float *humidity )
+bool DHT_nonblocking::measure( int *temperature, int *humidity )
 {
   if( read_nonblocking( ) == true )
   {
@@ -72,16 +72,16 @@ bool DHT_nonblocking::measure( float *temperature, float *humidity )
 
 
 
-float DHT_nonblocking::read_temperature( ) const
+int DHT_nonblocking::read_temperature( ) const
 {
   int16_t value;
-  float   to_return;
+  int   to_return;
 
   switch( _type )
   {
   case DHT_TYPE_11:
     value = data[ 2 ];
-    to_return = (float) value;
+    to_return = (int) value * 10;
     break;
 
   case DHT_TYPE_21:
@@ -92,7 +92,7 @@ float DHT_nonblocking::read_temperature( ) const
     {
       value = -value;
     }
-    to_return = ( (float) value ) / 10.0;
+    to_return = value;
     break;
 
   default:
@@ -105,23 +105,23 @@ float DHT_nonblocking::read_temperature( ) const
 
 
 
-float DHT_nonblocking::read_humidity( ) const
+int DHT_nonblocking::read_humidity( ) const
 {
   uint16_t value;
-  float   to_return;
+  int   to_return;
 
   switch( _type )
   {
   case DHT_TYPE_11:
     value =  data[ 0 ];
-    to_return = (float) value;
+    to_return = value * 10;
     break;
 
   case DHT_TYPE_21:
   case DHT_TYPE_22:
     value =  data[ 0 ] << 8;
     value |= data[ 1 ];
-    to_return = (float)value / 10.0;
+    to_return = value;
     break;
 
   default:
@@ -169,7 +169,7 @@ uint32_t DHT_nonblocking::expect_pulse(bool level) const
 /*
  * State machine of the non-blocking read.
  */
-boolean DHT_nonblocking::read_nonblocking( )
+bool DHT_nonblocking::read_nonblocking( )
 {
   bool status = false;
 

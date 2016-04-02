@@ -24,11 +24,11 @@
 #include <dht_nonblocking.h>
 
 /* Uncomment according to your sensortype. */
-#define DHT_SENSOR_TYPE DHT_TYPE_11
+//#define DHT_SENSOR_TYPE DHT_TYPE_11
 //#define DHT_SENSOR_TYPE DHT_TYPE_21
-//#define DHT_SENSOR_TYPE DHT_TYPE_22
+#define DHT_SENSOR_TYPE DHT_TYPE_22
 
-static const int DHT_SENSOR_PIN = 10;
+static const int DHT_SENSOR_PIN = 9;
 DHT_nonblocking dht_sensor( DHT_SENSOR_PIN, DHT_SENSOR_TYPE );
 
 
@@ -47,7 +47,7 @@ void setup( )
  * Poll for a measurement, keeping the state machine alive.  Returns
  * true if a measurement is available.
  */
-static bool measure_environment( float *temperature, float *humidity )
+static bool measure_environment( int *temperature, int *humidity )
 {
   static unsigned long measurement_timestamp = millis( );
 
@@ -71,8 +71,8 @@ static bool measure_environment( float *temperature, float *humidity )
  */
 void loop( )
 {
-  float temperature;
-  float humidity;
+  int temperature;
+  int humidity;
 
   /* Measure temperature and humidity.  If the functions returns
      true, then a measurement is available. */
